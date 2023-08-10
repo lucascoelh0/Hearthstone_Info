@@ -1,12 +1,11 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    kotlin("kapt")
-    kotlin("android")
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.hiltAndroid) apply false
-    alias(libs.plugins.ksp)
+    id(Plugin.Android.application)
+    id(Plugin.Kotlin.android)
+    id(Plugin.Jetbrains.kotlin)
+    id(Plugin.Hilt.android)
+    kotlin(Plugin.Kotlin.kapt)
 }
 
 android {

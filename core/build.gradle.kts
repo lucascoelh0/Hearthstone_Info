@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = Modules.Domain.namespace
-    compileSdk = Modules.Domain.compileSdk
+    namespace = Modules.Core.namespace
+    compileSdk = Modules.Core.compileSdk
 
     defaultConfig {
-        minSdk = Modules.Domain.minSdk
+        minSdk = Modules.Core.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //        consumerProguardFiles("consumer-rules.pro")
@@ -31,11 +31,8 @@ android {
 }
 
 dependencies {
-    api(project(Modules.Core.name))
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appcompat)
-    implementation(Dependencies.Hilt.hiltAndroid)
-    kapt(Dependencies.Hilt.hiltCompiler)
-    implementation(Dependencies.Hilt.hiltPlugin)
+    implementation(Dependencies.Google.material)
     testImplementation(Dependencies.Test.junit)
 }

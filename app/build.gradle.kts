@@ -9,16 +9,16 @@ plugins {
 }
 
 android {
-    namespace = "com.luminay.hearthstoneinfo"
-    compileSdk = 34
+    namespace = Modules.App.namespace
+    compileSdk = Modules.App.compileSdk
     val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
     val apiHost: String = gradleLocalProperties(rootDir).getProperty("API_HOST")
 
     defaultConfig {
         applicationId = "com.luminay.hearthstoneinfo"
-        minSdk = 27
-        targetSdk = 34
-        versionCode = 1
+        minSdk = Modules.App.minSdk
+        targetSdk = Modules.App.targetSdk
+        versionCode = Modules.App.versionCode
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -34,7 +34,7 @@ android {
         }
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+//            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -64,6 +64,9 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Data.name))
+    implementation(project(Modules.Core.name))
+    implementation(project(Modules.Domain.name))
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.lifecycleRuntimeKtx)
     implementation(Dependencies.Compose.activityCompose)

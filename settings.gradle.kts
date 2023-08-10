@@ -7,3 +7,4 @@ pluginManagement {
 
 rootProject.name = "Hearthstone Info"
 include(":app")
+include(":domain")

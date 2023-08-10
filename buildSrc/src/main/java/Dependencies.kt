@@ -7,13 +7,19 @@ object Dependencies {
     }
 
     object Compose {
-        const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:${Version.hiltNavigationCompose}"
         const val activityCompose = "androidx.activity:activity-compose:${Version.activityCompose}"
-        const val ui = "androidx.compose.ui:ui"
-        const val uiGraphics = "androidx.compose.ui:ui-graphics"
-        const val uiTooling = "androidx.compose.ui:ui-tooling"
-        const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
-        const val material3 = "androidx.compose.material3:material3"
+        const val ui = "androidx.compose.ui:ui:${Version.compose}"
+        const val uiTooling = "androidx.compose.ui:ui-tooling:${Version.compose}"
+        const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview:${Version.compose}"
+        const val material3 = "androidx.compose.material3:material3:${Version.composeMaterial3}"
+        const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:${Version.compose}"
+        const val lifecycleRuntime =
+            "androidx.lifecycle:lifecycle-runtime-compose:${Version.lifecycleRuntimeComposeVersion}"
+        const val themeAdapter =
+            "com.google.android.material:compose-theme-adapter:${Version.composeThemeAdapterVersion}"
+        const val foundation = "androidx.compose.foundation:foundation:${Version.compose}"
+        const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Version.compose}"
+        const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Version.viewModelCompose}"
         const val coilCompose = "io.coil-kt:coil-compose:${Version.coil}"
     }
 
@@ -25,11 +31,15 @@ object Dependencies {
     object Hilt {
         const val hiltAndroid = "com.google.dagger:hilt-android:${Version.hilt}"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Version.hilt}"
+        const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:${Version.hiltNavigationCompose}"
         const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Version.hilt}"
     }
 
     object Libraries {
-        const val networkResponseAdapter = "com.github.haroldadmin:NetworkResponseAdapter:${Version.networkResponseAdapter}"
+        const val networkResponseAdapter =
+            "com.github.haroldadmin:NetworkResponseAdapter:${Version.networkResponseAdapter}"
+        const val composeDestinations =
+            "io.github.raamcosta.compose-destinations:animations-core:${Version.composeDestinations}"
     }
 
     object SquareUp {
@@ -44,6 +54,6 @@ object Dependencies {
         const val androidxTestExtJunit = "androidx.test.ext:junit:${Version.androidxTestExtJunit}"
         const val espressoCore = "androidx.test.espresso:espresso-core:${Version.espressoCore}"
         const val uiTestManifest = "androidx.compose.ui:ui-test-manifest"
-        const val uiTestJunit4 = "androidx.compose.ui:ui-test-junit4"
+        const val uiTestJunit4 = "androidx.compose.ui:ui-test-junit4:${Version.compose}"
     }
 }

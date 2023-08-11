@@ -47,7 +47,10 @@ fun CardDetails(
             .fillMaxWidth()
             .background(
                 Black50,
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(
+                    topEnd = 16.dp,
+                    topStart = 16.dp,
+                ),
             )
     ) {
         Column(

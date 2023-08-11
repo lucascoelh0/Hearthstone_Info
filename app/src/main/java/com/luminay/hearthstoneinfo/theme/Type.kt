@@ -1,4 +1,4 @@
-package com.luminay.hearthstoneinfo.features.cardslist.presentation.theme
+package com.luminay.hearthstoneinfo.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

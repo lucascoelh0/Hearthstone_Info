@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -34,7 +35,9 @@ internal class NetworkModule {
 
     @Singleton
     @Provides
-    fun providesOkHttpClient(): OkHttpClient {
+    fun providesOkHttpClient(
+        connectionTimeout: Long,
+    ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         if (BuildConfig.DEBUG) {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC)
@@ -61,6 +64,7 @@ internal class NetworkModule {
 
         return OkHttpClient
             .Builder()
+            .readTimeout(connectionTimeout, TimeUnit.SECONDS)
             .addInterceptor(requestInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
@@ -103,7 +107,7 @@ internal class NetworkModule {
 
     companion object {
         private const val BASE_URL = "https://omgvamp-hearthstone-v1.p.rapidapi.com/"
-        private const val NETWORK_TIMEOUT = 60
+        private const val NETWORK_TIMEOUT = 60L
         private const val LOCALE = "ptBR"
     }
 }

@@ -13,10 +13,6 @@ object Plugin {
         const val kotlin = "org.jetbrains.kotlin.android"
     }
 
-    object Ksp {
-        const val ksp = "com.google.devtools.ksp"
-    }
-
     object Kotlin {
         const val android = "kotlin-android"
         const val kapt = "kapt"

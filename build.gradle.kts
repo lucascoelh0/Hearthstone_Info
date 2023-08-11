@@ -2,6 +2,7 @@
 buildscript {
     repositories {
         google()
+        maven(url = "https://jitpack.io")
         mavenCentral()
         maven(url = "https://plugins.gradle.org/m2/")
     }

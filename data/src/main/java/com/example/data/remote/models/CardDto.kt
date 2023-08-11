@@ -35,3 +35,15 @@ fun CardDto.toCardModel(): CardModel {
         health = health ?: 0,
     )
 }
+
+fun Map<String, List<CardDto>>.toModel(): Map<String, List<CardModel>> {
+    return mapValues {
+        it.value.toCardModel()
+    }
+}
+
+fun List<CardDto>.toCardModel(): List<CardModel> {
+    return map {
+        it.toCardModel()
+    }
+}

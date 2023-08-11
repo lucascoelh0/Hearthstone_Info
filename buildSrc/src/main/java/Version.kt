@@ -1,6 +1,6 @@
 object Version {
     const val android = "8.0.1"
-    const val gradle = "8.0.2"
+    const val gradle = "8.0.1"
     const val kotlin = "1.8.10"
     const val coreKtx = "1.10.1"
     const val junit = "4.13.2"
@@ -10,7 +10,6 @@ object Version {
     const val activityCompose = "1.7.2"
     const val hilt = "2.47"
     const val hiltNavigationCompose = "1.0.0"
-    const val ksp = "1.8.10-1.0.9"
     const val coil = "2.1.0"
     const val appcompat = "1.6.1"
     const val material = "1.9.0"

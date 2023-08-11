@@ -88,9 +88,10 @@ fun CardsStatus(
     modifier: Modifier = Modifier,
     onCardClick: (CardModel) -> Unit,
 ) {
-
     Column(
         modifier = modifier.padding(padding),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
         when (allCards?.status) {
             Status.LOADING -> {

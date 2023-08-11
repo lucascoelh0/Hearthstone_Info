@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.luminay.hearthstoneinfo.features.cardlist.presentation.ui.CardsListScreen
 import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
 
@@ -13,8 +12,7 @@ import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
 fun MainScreen() {
     HearthstoneInfoTheme {
         CardsListScreen(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }

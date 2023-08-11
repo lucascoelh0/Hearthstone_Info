@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.luminay.hearthstoneinfo.theme.Gray40
+import com.luminay.hearthstoneinfo.theme.Gray80
 
 @Composable
 fun HorizontalFullTextContainer(
@@ -19,7 +19,7 @@ fun HorizontalFullTextContainer(
     modifier: Modifier = Modifier,
     textSize: TextUnit = 16.sp,
     textColor: Color = Color.White,
-    color: Color = Gray40,
+    color: Color = Gray80,
 ) {
     Text(
         text = text,

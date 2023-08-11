@@ -3,4 +3,12 @@
     <string name="loading_error">Erro ao carregar as cartas. Tente novamente</string>
     <string name="try_again">Tentar novamente</string>
     <string name="card_content_description">Imagem da carta</string>
+    <string name="type">Tipo</string>
+    <string name="faction">Facção</string>
+    <string name="rarity">Raridade</string>
+    <string name="set">Pacote</string>
+    <string name="player_class">Classe</string>
+    <string name="attack">Ataque</string>
+    <string name="cost">Custo</string>
+    <string name="health">Vida</string>
 </resources>

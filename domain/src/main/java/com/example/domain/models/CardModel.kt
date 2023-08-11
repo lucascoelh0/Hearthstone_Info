@@ -2,8 +2,8 @@ package com.example.domain.models
 
 data class CardModel(
     val cardId: String,
+    val playerClass: String,
     val img: String,
-    val imgGold: String,
     val name: String,
     val flavor: String,
     val text: String,

@@ -4,8 +4,8 @@ import com.example.domain.models.CardModel
 
 data class CardDto(
     val cardId: String? = null,
+    val playerClass: String? = null,
     val img: String? = null,
-    val imgGold: String? = null,
     val name: String? = null,
     val flavor: String? = null,
     val text: String? = null,
@@ -21,8 +21,8 @@ data class CardDto(
 fun CardDto.toCardModel(): CardModel {
     return CardModel(
         cardId = cardId.orEmpty(),
+        playerClass = playerClass.orEmpty(),
         img = img.orEmpty(),
-        imgGold = imgGold.orEmpty(),
         name = name.orEmpty(),
         flavor = flavor.orEmpty(),
         text = text.orEmpty(),

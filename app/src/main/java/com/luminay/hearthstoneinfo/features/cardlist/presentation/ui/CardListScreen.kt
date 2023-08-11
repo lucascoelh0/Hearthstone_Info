@@ -1,6 +1,5 @@
 package com.luminay.hearthstoneinfo.features.cardlist.presentation.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.core.models.Resource
 import com.example.core.models.Status
 import com.example.domain.models.CardModel
@@ -38,6 +36,7 @@ import com.luminay.hearthstoneinfo.R
 import com.luminay.hearthstoneinfo.features.cardlist.presentation.mocks.getMockCardMap
 import com.luminay.hearthstoneinfo.features.cards.presentation.ui.CardDetails
 import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
+import com.luminay.hearthstoneinfo.theme.Yellow20
 import com.luminay.hearthstoneinfo.ui.common.BottomSheet
 import com.luminay.hearthstoneinfo.ui.common.CardContainer
 import com.luminay.hearthstoneinfo.ui.common.HorizontalFullTextContainer
@@ -57,7 +56,8 @@ fun CardsListScreen(
                 CardDetails(
                     card = viewModel.pressedCard
                 )
-            }
+            },
+            modifier = Modifier.fillMaxWidth(),
         )
     }
     Scaffold(
@@ -95,7 +95,9 @@ fun CardsStatus(
     ) {
         when (allCards?.status) {
             Status.LOADING -> {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    color = Yellow20,
+                )
             }
 
             Status.SUCCESS -> {
@@ -131,10 +133,9 @@ fun CardsList(
         val flattenedCards = cards.flatMap { entry ->
             listOf(entry.key) + entry.value.filter { it.img.isNotEmpty() }
         }
-        Log.e("CardsList", "flattenedCards: $flattenedCards")
         val state = rememberLazyGridState()
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
+            columns = GridCells.Fixed(4),
             state = state,
             modifier = modifier,
         ) {
@@ -188,7 +189,7 @@ private fun getGridItemKey(item: Any): Any {
 
 private fun getGridItemSpan(item: Any): GridItemSpan {
     return when (item) {
-        is String -> GridItemSpan(3)
+        is String -> GridItemSpan(4)
         is CardModel -> GridItemSpan(1)
         else -> error("Unknown item type")
     }

@@ -82,8 +82,8 @@ fun getMockCardList() = listOf(
 )
 
 fun getMockCardMap() = mapOf(
-    "Basic" to getMockCardList().subList(0, 1),
-    "Classic" to getMockCardList().subList(2, 3),
+    "Basic" to getMockCardList().subList(0, 2),
+    "Classic" to getMockCardList().subList(3, 4),
 )
 
 fun getMockCardFlatMap() = getMockCardMap().flatMap { it.value }

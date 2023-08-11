@@ -24,6 +24,8 @@ class CardListViewModel @Inject constructor(
     private val _allCards = MutableStateFlow<Resource<Map<String, List<CardModel>>>>(Resource.loading(null))
     val allCards: Flow<Resource<Map<String, List<CardModel>>>> = _allCards.asStateFlow()
 
+    lateinit var pressedCard: CardModel
+
     init {
         fetchData()
     }

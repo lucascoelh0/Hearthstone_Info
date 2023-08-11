@@ -1,8 +1,10 @@
 package com.luminay.hearthstoneinfo.features.cardlist.presentation.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -12,11 +14,15 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -30,18 +36,30 @@ import com.example.core.models.Status
 import com.example.domain.models.CardModel
 import com.luminay.hearthstoneinfo.R
 import com.luminay.hearthstoneinfo.features.cardlist.presentation.mocks.getMockCardMap
+import com.luminay.hearthstoneinfo.features.cards.presentation.ui.CardDetails
 import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
+import com.luminay.hearthstoneinfo.ui.common.BottomSheet
 import com.luminay.hearthstoneinfo.ui.common.CardContainer
 import com.luminay.hearthstoneinfo.ui.common.HorizontalFullTextContainer
 
-@ExperimentalGlideComposeApi
+@ExperimentalMaterial3Api
 @Composable
 fun CardsListScreen(
     modifier: Modifier = Modifier,
     viewModel: CardListViewModel = hiltViewModel(),
 ) {
     val allCards by viewModel.allCards.collectAsStateWithLifecycle(initialValue = null)
-
+    var showDetailsBottomSheet by remember { mutableStateOf(false) }
+    if (showDetailsBottomSheet) {
+        BottomSheet(
+            onDismiss = { showDetailsBottomSheet = false },
+            content = {
+                CardDetails(
+                    card = viewModel.pressedCard
+                )
+            }
+        )
+    }
     Scaffold(
         modifier = modifier,
         content = { padding ->
@@ -51,19 +69,26 @@ fun CardsListScreen(
                 onRetry = {
                     viewModel.fetchData()
                 },
+                modifier = Modifier.fillMaxSize(),
+                onCardClick = {
+                    viewModel.pressedCard = it
+                    showDetailsBottomSheet = true
+                }
             )
         }
     )
 }
 
-@ExperimentalGlideComposeApi
+@ExperimentalMaterial3Api
 @Composable
 fun CardsStatus(
     padding: PaddingValues,
     allCards: Resource<Map<String, List<CardModel>>>?,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
+    onCardClick: (CardModel) -> Unit,
 ) {
+
     Column(
         modifier = modifier.padding(padding),
     ) {
@@ -76,6 +101,7 @@ fun CardsStatus(
                 CardsList(
                     cards = allCards.data,
                     onRetry = onRetry,
+                    onCardClick = onCardClick,
                 )
             }
 
@@ -88,12 +114,13 @@ fun CardsStatus(
     }
 }
 
-@ExperimentalGlideComposeApi
+@ExperimentalMaterial3Api
 @Composable
 fun CardsList(
     cards: Map<String, List<CardModel>>?,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
+    onCardClick: (CardModel) -> Unit,
 ) {
     if (cards == null) {
         ErrorMessage(
@@ -101,8 +128,9 @@ fun CardsList(
         )
     } else {
         val flattenedCards = cards.flatMap { entry ->
-            listOf(entry.key) + entry.value
+            listOf(entry.key) + entry.value.filter { it.img.isNotEmpty() }
         }
+        Log.e("CardsList", "flattenedCards: $flattenedCards")
         val state = rememberLazyGridState()
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
@@ -116,7 +144,8 @@ fun CardsList(
             ) { index, item ->
                 CardGridItem(
                     index = index,
-                    item = item
+                    item = item,
+                    onCardClick = onCardClick,
                 )
             }
         }
@@ -164,11 +193,11 @@ private fun getGridItemSpan(item: Any): GridItemSpan {
     }
 }
 
-@ExperimentalGlideComposeApi
 @Composable
 private fun CardGridItem(
     index: Int,
     item: Any,
+    onCardClick: (CardModel) -> Unit,
 ) {
     when (item) {
         is String -> {
@@ -185,8 +214,7 @@ private fun CardGridItem(
 
         is CardModel -> {
             if (item.img.isNotEmpty() &&
-                item.name.isNotEmpty() &&
-                item.type == "Minion"
+                item.name.isNotEmpty()
             ) {
                 CardContainer(
                     cardModel = item,
@@ -196,19 +224,21 @@ private fun CardGridItem(
                             bottom = 8.dp,
                         )
                         .fillMaxWidth(),
+                    onCardClick = onCardClick,
                 )
             }
         }
     }
 }
 
-@ExperimentalGlideComposeApi
+@ExperimentalMaterial3Api
 @Preview
 @Composable
 fun PreviewCardsList() {
     CardsList(
         cards = getMockCardMap(),
         onRetry = {},
+        onCardClick = {},
     )
 }
 

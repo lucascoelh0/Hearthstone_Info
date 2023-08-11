@@ -36,6 +36,7 @@ object Dependencies {
     }
 
     object Libraries {
+        const val composeShimmer = "com.valentinilk.shimmer:compose-shimmer:${Version.composeShimmer}"
         const val networkResponseAdapter =
             "com.github.haroldadmin:NetworkResponseAdapter:${Version.networkResponseAdapter}"
         const val composeDestinations =

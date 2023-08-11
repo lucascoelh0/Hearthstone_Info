@@ -76,6 +76,7 @@ dependencies {
     implementation(Dependencies.Compose.coilCompose)
     implementation(Dependencies.Hilt.hiltAndroid)
     implementation(Dependencies.Compose.lifecycleRuntime)
+    implementation(Dependencies.Libraries.composeShimmer)
     kapt(Dependencies.Hilt.hiltCompiler)
     implementation(Dependencies.Hilt.hiltPlugin)
     implementation(Dependencies.Hilt.hiltNavigationCompose)

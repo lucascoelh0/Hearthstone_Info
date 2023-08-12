@@ -3,7 +3,8 @@ package com.example.core.ext
 import java.util.Locale
 
 fun String.formatCardText(): String {
-    return replace("<[^>]*>".toRegex(), "").replace("$", "")
+    return replace("<[^>]*>|\\$|\\[[^]]*]".toRegex(), "")
+
 }
 
 fun String.capitalizeFirstLetter(): String {

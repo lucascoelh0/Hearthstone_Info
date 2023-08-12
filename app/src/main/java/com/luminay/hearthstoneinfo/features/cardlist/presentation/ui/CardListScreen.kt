@@ -15,21 +15,17 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +46,7 @@ import com.luminay.hearthstoneinfo.ui.common.BottomSheet
 import com.luminay.hearthstoneinfo.ui.common.ButtonWithDownArrow
 import com.luminay.hearthstoneinfo.ui.common.CardContainer
 import com.luminay.hearthstoneinfo.ui.common.HorizontalFullTextContainer
+import com.luminay.hearthstoneinfo.ui.common.SearchBarWithBorder
 
 @ExperimentalMaterial3Api
 @Composable
@@ -79,12 +76,11 @@ fun CardsListScreen(
                 onQueryChange = {
                     searchTerm = it
                 },
-                onSearch = {
-                    viewModel.fetchData()
-                },
                 onClickCardSet = {
                     TODO()
                 },
+                isSearchBarEnabled = allCards?.data is Map<*, *>,
+                modifier = Modifier.padding(top = 8.dp),
             )
         },
         content = { padding ->
@@ -94,6 +90,7 @@ fun CardsListScreen(
                 onRetry = {
                     viewModel.fetchData()
                 },
+                searchTerm = searchTerm,
                 modifier = Modifier.fillMaxSize(),
                 onCardClick = {
                     viewModel.pressedCard = it
@@ -110,6 +107,7 @@ fun CardsStatus(
     padding: PaddingValues,
     allCards: Resource<Map<String, List<CardModel>>>?,
     onRetry: () -> Unit,
+    searchTerm: String,
     modifier: Modifier = Modifier,
     onCardClick: (CardModel) -> Unit,
 ) {
@@ -126,10 +124,10 @@ fun CardsStatus(
             }
 
             Status.SUCCESS -> {
-
                 CardsList(
                     cards = allCards.data,
                     onRetry = onRetry,
+                    searchTerm = searchTerm,
                     onCardClick = onCardClick,
                 )
             }
@@ -148,15 +146,16 @@ fun CardsStatus(
 private fun TopBar(
     searchTerm: String,
     onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
     onClickCardSet: (CardSet) -> Unit,
+    isSearchBarEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     var showCardSetDialog by remember { mutableStateOf(false) }
-    var active by rememberSaveable { mutableStateOf(false) }
     Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         ButtonWithDownArrow(
             onClick = {
@@ -165,23 +164,11 @@ private fun TopBar(
             leftIcon = ImageVector.vectorResource(id = R.drawable.ic_card_set),
         )
 
-        SearchBar(
-            query = searchTerm,
+        SearchBarWithBorder(
+            searchTerm = searchTerm,
             onQueryChange = onQueryChange,
-            onSearch = onSearch,
-            active = active,
-            onActiveChange = { active = it },
-            trailingIcon = {
-                Icon(
-                    painter = painterResource(
-                        id = R.drawable.ic_search
-                    ),
-                    contentDescription = stringResource(id = R.string.search),
-                )
-            },
-        ) {
-
-        }
+            isEnabled = isSearchBarEnabled,
+        )
     }
 }
 
@@ -192,9 +179,9 @@ private fun TopBarPreview() {
     HearthstoneInfoTheme {
         TopBar(
             searchTerm = EMPTY,
-            onSearch = {},
             onQueryChange = {},
             onClickCardSet = {},
+            isSearchBarEnabled = true,
         )
     }
 }
@@ -204,17 +191,17 @@ private fun TopBarPreview() {
 fun CardsList(
     cards: Map<String, List<CardModel>>?,
     onRetry: () -> Unit,
+    searchTerm: String,
     modifier: Modifier = Modifier,
     onCardClick: (CardModel) -> Unit,
+    cardListViewModel: CardListViewModel = hiltViewModel(),
 ) {
     if (cards == null) {
         ErrorMessage(
             onRetry = { onRetry() }
         )
     } else {
-        val flattenedCards = cards.flatMap { entry ->
-            listOf(entry.key) + entry.value.filter { it.img.isNotEmpty() }
-        }
+        val flattenedCards = cardListViewModel.getCardsFlattenedMap(cards, searchTerm)
         val state = rememberLazyGridState()
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
@@ -322,6 +309,7 @@ fun PreviewCardsList() {
     CardsList(
         cards = getMockCardMap(),
         onRetry = {},
+        searchTerm = EMPTY,
         onCardClick = {},
     )
 }

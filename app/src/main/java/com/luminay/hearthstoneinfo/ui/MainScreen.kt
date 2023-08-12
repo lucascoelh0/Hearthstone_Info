@@ -12,7 +12,8 @@ import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
 fun MainScreen() {
     HearthstoneInfoTheme {
         CardsListScreen(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize(),
         )
     }
 }

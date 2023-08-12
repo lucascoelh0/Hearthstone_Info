@@ -15,6 +15,7 @@ val Red90 = Color(0xFF390C0C)
 val Orange20 = Color(0xFFC3B189)
 val Orange80 = Color(0xFFAC6726)
 
+val Brown20 = Color(0xFFA38970)
 val Brown80 = Color(0xFF614326)
 
 val Gray40 = Color(0xFF444444)

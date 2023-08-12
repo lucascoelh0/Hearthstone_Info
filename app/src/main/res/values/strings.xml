@@ -11,4 +11,5 @@
     <string name="attack">Ataque</string>
     <string name="cost">Custo</string>
     <string name="health">Vida</string>
+    <string name="search">Procurar</string>
 </resources>

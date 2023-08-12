@@ -3,6 +3,7 @@ package com.luminay.hearthstoneinfo.features.cardlist.presentation.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,30 +15,39 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.core.constants.EMPTY
 import com.example.core.models.Resource
 import com.example.core.models.Status
 import com.example.domain.models.CardModel
+import com.example.domain.models.CardSet
 import com.luminay.hearthstoneinfo.R
 import com.luminay.hearthstoneinfo.features.cardlist.presentation.mocks.getMockCardMap
 import com.luminay.hearthstoneinfo.features.cards.presentation.ui.CardDetails
 import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
 import com.luminay.hearthstoneinfo.theme.Yellow20
 import com.luminay.hearthstoneinfo.ui.common.BottomSheet
+import com.luminay.hearthstoneinfo.ui.common.ButtonWithDownArrow
 import com.luminay.hearthstoneinfo.ui.common.CardContainer
 import com.luminay.hearthstoneinfo.ui.common.HorizontalFullTextContainer
 
@@ -48,6 +58,7 @@ fun CardsListScreen(
     viewModel: CardListViewModel = hiltViewModel(),
 ) {
     val allCards by viewModel.allCards.collectAsStateWithLifecycle(initialValue = null)
+    var searchTerm by remember { mutableStateOf(EMPTY) }
     var showDetailsBottomSheet by remember { mutableStateOf(false) }
     if (showDetailsBottomSheet) {
         BottomSheet(
@@ -62,6 +73,20 @@ fun CardsListScreen(
     }
     Scaffold(
         modifier = modifier,
+        topBar = {
+            TopBar(
+                searchTerm = searchTerm,
+                onQueryChange = {
+                    searchTerm = it
+                },
+                onSearch = {
+                    viewModel.fetchData()
+                },
+                onClickCardSet = {
+                    TODO()
+                },
+            )
+        },
         content = { padding ->
             CardsStatus(
                 padding = padding,
@@ -101,6 +126,7 @@ fun CardsStatus(
             }
 
             Status.SUCCESS -> {
+
                 CardsList(
                     cards = allCards.data,
                     onRetry = onRetry,
@@ -114,6 +140,62 @@ fun CardsStatus(
                 )
             }
         }
+    }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+private fun TopBar(
+    searchTerm: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: (String) -> Unit,
+    onClickCardSet: (CardSet) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var showCardSetDialog by remember { mutableStateOf(false) }
+    var active by rememberSaveable { mutableStateOf(false) }
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        ButtonWithDownArrow(
+            onClick = {
+                showCardSetDialog = !showCardSetDialog
+            },
+            leftIcon = ImageVector.vectorResource(id = R.drawable.ic_card_set),
+        )
+
+        SearchBar(
+            query = searchTerm,
+            onQueryChange = onQueryChange,
+            onSearch = onSearch,
+            active = active,
+            onActiveChange = { active = it },
+            trailingIcon = {
+                Icon(
+                    painter = painterResource(
+                        id = R.drawable.ic_search
+                    ),
+                    contentDescription = stringResource(id = R.string.search),
+                )
+            },
+        ) {
+
+        }
+    }
+}
+
+@ExperimentalMaterial3Api
+@Preview
+@Composable
+private fun TopBarPreview() {
+    HearthstoneInfoTheme {
+        TopBar(
+            searchTerm = EMPTY,
+            onSearch = {},
+            onQueryChange = {},
+            onClickCardSet = {},
+        )
     }
 }
 

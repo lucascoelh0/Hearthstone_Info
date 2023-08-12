@@ -26,6 +26,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.core.constants.HYPHEN
+import com.example.core.ext.capitalizeFirstLetter
 import com.example.core.ext.formatCardText
 import com.example.domain.models.CardModel
 import com.luminay.hearthstoneinfo.R
@@ -131,27 +133,27 @@ private fun CardInfo(
         ) {
             BulletPointLabelAndText(
                 label = stringResource(id = R.string.cost),
-                text = card.cost.toString(),
+                text = card.cost.toString().ifEmpty { HYPHEN },
             )
 
             BulletPointLabelAndText(
                 label = stringResource(id = R.string.attack),
-                text = card.attack.toString(),
+                text = card.attack.toString().ifEmpty { HYPHEN },
             )
 
             BulletPointLabelAndText(
                 label = stringResource(id = R.string.health),
-                text = card.health.toString(),
+                text = card.health.toString().ifEmpty { HYPHEN },
             )
         }
 
         card.apply {
             mapOf(
-                stringResource(id = R.string.set) to cardSet,
-                stringResource(id = R.string.type) to type,
-                stringResource(id = R.string.faction) to faction,
-                stringResource(id = R.string.rarity) to rarity,
-                stringResource(id = R.string.player_class) to playerClass,
+                stringResource(id = R.string.set) to cardSet.value,
+                stringResource(id = R.string.type) to type.name.capitalizeFirstLetter(),
+                stringResource(id = R.string.faction) to faction.name.capitalizeFirstLetter(),
+                stringResource(id = R.string.rarity) to rarity.name.capitalizeFirstLetter(),
+                stringResource(id = R.string.player_class) to playerClass.value,
             ).forEach {
                 if (it.value.isNotEmpty()) {
                     BulletPointLabelAndText(

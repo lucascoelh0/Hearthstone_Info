@@ -1,6 +1,11 @@
 package com.example.data.remote.models
 
 import com.example.domain.models.CardModel
+import com.example.domain.models.CardSet
+import com.example.domain.models.Faction
+import com.example.domain.models.PlayerClass
+import com.example.domain.models.Rarity
+import com.example.domain.models.Type
 
 data class CardDto(
     val cardId: String? = null,
@@ -21,15 +26,15 @@ data class CardDto(
 fun CardDto.toCardModel(): CardModel {
     return CardModel(
         cardId = cardId.orEmpty(),
-        playerClass = playerClass.orEmpty(),
+        playerClass = PlayerClass.get(playerClass.orEmpty()),
         img = img.orEmpty(),
         name = name.orEmpty(),
         flavor = flavor.orEmpty(),
         text = text.orEmpty(),
-        cardSet = cardSet.orEmpty(),
-        type = type.orEmpty(),
-        faction = faction.orEmpty(),
-        rarity = rarity.orEmpty(),
+        cardSet = CardSet.get(cardSet.orEmpty()),
+        type = Type.get(type.orEmpty()),
+        faction = Faction.get(faction.orEmpty()),
+        rarity = Rarity.get(rarity.orEmpty()),
         attack = attack ?: 0,
         cost = cost ?: 0,
         health = health ?: 0,

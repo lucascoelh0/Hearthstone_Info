@@ -5,12 +5,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -32,7 +33,6 @@ import com.example.core.ext.formatCardText
 import com.example.domain.models.CardModel
 import com.luminay.hearthstoneinfo.R
 import com.luminay.hearthstoneinfo.features.cardlist.presentation.mocks.getMockCard
-import com.luminay.hearthstoneinfo.theme.Black50
 import com.luminay.hearthstoneinfo.theme.Gray80
 import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
 import com.luminay.hearthstoneinfo.ui.common.BulletPointLabelAndText
@@ -45,10 +45,11 @@ fun CardDetails(
 ) {
     Box(
         modifier = modifier
-            .padding(top = 150.dp)
+            .padding(top = 100.dp)
+            .fillMaxHeight()
             .fillMaxWidth()
             .background(
-                Black50,
+                Gray80,
                 shape = RoundedCornerShape(
                     topEnd = 16.dp,
                     topStart = 16.dp,
@@ -57,16 +58,15 @@ fun CardDetails(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .align(alignment = Alignment.TopCenter)
-                .offset(y = (-150).dp),
+                .offset(y = (-100).dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CardContainer(
                 cardModel = card,
                 modifier = Modifier
-                    .height(300.dp)
-                    .width(300.dp)
+                    .height(250.dp)
+                    .width(250.dp)
             )
 
             CardInfo(
@@ -79,16 +79,15 @@ fun CardDetails(
 @Composable
 private fun CardInfo(
     card: CardModel,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
-            .wrapContentHeight()
-            .fillMaxWidth()
+        modifier = modifier
             .padding(
                 top = 4.dp,
-                bottom = 16.dp,
-                start = 16.dp,
                 end = 16.dp,
+                bottom = 0.dp,
+                start = 16.dp,
             ),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -110,7 +109,7 @@ private fun CardInfo(
         if (card.flavor.isNotEmpty()) {
             Text(
                 text = card.flavor,
-                color = Gray80,
+                color = Color.Black,
                 style = TextStyle(
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 ),
@@ -163,6 +162,8 @@ private fun CardInfo(
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

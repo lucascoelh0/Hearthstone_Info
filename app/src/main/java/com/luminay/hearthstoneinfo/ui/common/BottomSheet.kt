@@ -1,9 +1,9 @@
 package com.luminay.hearthstoneinfo.ui.common
 
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -32,8 +32,8 @@ fun BottomSheet(
             Spacer(Modifier.height(0.dp))
         },
         modifier = modifier
-            .height(IntrinsicSize.Min)
-            .fillMaxWidth(),
+            .fillMaxHeight()
+            .padding(bottom = 0.dp),
     ) {
         content()
     }

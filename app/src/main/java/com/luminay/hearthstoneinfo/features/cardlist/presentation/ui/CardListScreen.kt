@@ -1,5 +1,6 @@
 package com.luminay.hearthstoneinfo.features.cardlist.presentation.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +14,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -41,6 +44,9 @@ import com.luminay.hearthstoneinfo.R
 import com.luminay.hearthstoneinfo.features.cardlist.presentation.mocks.getMockCardMap
 import com.luminay.hearthstoneinfo.features.cards.presentation.ui.CardDetails
 import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
+import com.luminay.hearthstoneinfo.theme.Orange20
+import com.luminay.hearthstoneinfo.theme.Red100
+import com.luminay.hearthstoneinfo.theme.Red90
 import com.luminay.hearthstoneinfo.theme.Yellow20
 import com.luminay.hearthstoneinfo.ui.common.BottomSheet
 import com.luminay.hearthstoneinfo.ui.common.ButtonWithDownArrow
@@ -69,7 +75,7 @@ fun CardsListScreen(
         )
     }
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.background(color = Orange20),
         topBar = {
             TopBar(
                 searchTerm = searchTerm,
@@ -80,7 +86,6 @@ fun CardsListScreen(
                     TODO()
                 },
                 isSearchBarEnabled = allCards?.data is Map<*, *>,
-                modifier = Modifier.padding(top = 8.dp),
             )
         },
         content = { padding ->
@@ -119,7 +124,7 @@ fun CardsStatus(
         when (allCards?.status) {
             Status.LOADING -> {
                 CircularProgressIndicator(
-                    color = Yellow20,
+                    color = Red90,
                 )
             }
 
@@ -151,23 +156,36 @@ private fun TopBar(
     modifier: Modifier = Modifier,
 ) {
     var showCardSetDialog by remember { mutableStateOf(false) }
-    Row(
-        modifier = modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        ButtonWithDownArrow(
-            onClick = {
-                showCardSetDialog = !showCardSetDialog
-            },
-            leftIcon = ImageVector.vectorResource(id = R.drawable.ic_card_set),
-        )
+    Column {
+        Row(
+            modifier = modifier
+                .background(color = Red90)
+                .padding(
+                    top = 24.dp,
+                    end = 8.dp,
+                    bottom = 8.dp,
+                    start = 8.dp,
+                )
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ButtonWithDownArrow(
+                onClick = {
+                    showCardSetDialog = !showCardSetDialog
+                },
+                leftIcon = ImageVector.vectorResource(id = R.drawable.ic_card_set),
+            )
 
-        SearchBarWithBorder(
-            searchTerm = searchTerm,
-            onQueryChange = onQueryChange,
-            isEnabled = isSearchBarEnabled,
+            SearchBarWithBorder(
+                searchTerm = searchTerm,
+                onQueryChange = onQueryChange,
+                isEnabled = isSearchBarEnabled,
+            )
+        }
+        Divider(
+            color = Yellow20,
+            thickness = 1.dp,
         )
     }
 }
@@ -235,11 +253,15 @@ fun ErrorMessage(
     ) {
         Text(
             text = stringResource(id = R.string.loading_error),
+            color = Red90,
         )
 
         Button(
             onClick = onRetry,
             modifier = Modifier.padding(top = 16.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Red90,
+            ),
         ) {
             Text(
                 text = stringResource(id = R.string.try_again),
@@ -280,6 +302,7 @@ private fun CardGridItem(
                         bottom = 8.dp,
                     )
                     .fillMaxWidth(),
+                color = Red100,
             )
         }
 

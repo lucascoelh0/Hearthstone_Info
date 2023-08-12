@@ -3,16 +3,15 @@ package com.luminay.hearthstoneinfo.theme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 
 private val LightColorScheme = lightColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    surface = Gray40,
-    background = Gray40,
-    onSurface = Color.White,
-    onBackground = Color.White,
+    surface = Orange20,
+    background = Orange20,
+    onSurface = Red90,
+    onBackground = Red90,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

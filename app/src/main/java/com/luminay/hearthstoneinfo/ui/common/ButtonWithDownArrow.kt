@@ -60,12 +60,12 @@ fun ButtonWithDownArrow(
             contentColor = Color.Transparent,
         ),
         border = BorderStroke(
-            2.dp,
+            3.dp,
             if (isPressed) borderActiveColor else borderColor
         ),
         modifier = modifier
-            .height(32.dp)
-            .width(64.dp),
+            .height(48.dp)
+            .width(80.dp),
         contentPadding = PaddingValues(0.dp),
     ) {
         Row(
@@ -76,13 +76,13 @@ fun ButtonWithDownArrow(
             Box(
                 contentAlignment = Alignment.CenterStart,
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(48.dp)
                     .background(
                         color = leftIconBackgroundColor,
                         shape = CircleShape,
                     )
                     .border(
-                        width = 2.dp,
+                        width = 3.dp,
                         color = if (isPressed) borderActiveColor else borderColor,
                         shape = CircleShape,
                     ),
@@ -92,7 +92,7 @@ fun ButtonWithDownArrow(
                     tint = leftIconColor,
                     modifier = Modifier
                         .padding(8.dp)
-                        .heightIn(min = 16.dp),
+                        .heightIn(min = 32.dp),
                     contentDescription = null,
                 )
             }
@@ -100,7 +100,7 @@ fun ButtonWithDownArrow(
                 imageVector = Icons.Default.KeyboardArrowDown,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(48.dp)
                     .padding(end = 4.dp),
                 tint = rightIconColor,
             )

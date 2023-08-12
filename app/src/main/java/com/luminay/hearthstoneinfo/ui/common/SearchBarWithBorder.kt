@@ -25,7 +25,7 @@ import com.luminay.hearthstoneinfo.theme.Brown20
 import com.luminay.hearthstoneinfo.theme.Gray80
 import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
 import com.luminay.hearthstoneinfo.theme.Orange80
-import com.luminay.hearthstoneinfo.theme.Red90
+import com.luminay.hearthstoneinfo.theme.Red100
 
 @Composable
 fun SearchBarWithBorder(
@@ -62,8 +62,8 @@ fun SearchBarWithBorder(
                 fontSize = 16.sp,
             ),
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Red90,
-                unfocusedContainerColor = Red90,
+                focusedContainerColor = Red100,
+                unfocusedContainerColor = Red100,
                 disabledContainerColor = Gray80,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,

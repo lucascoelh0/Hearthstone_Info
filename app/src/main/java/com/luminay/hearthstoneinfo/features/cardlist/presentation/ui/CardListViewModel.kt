@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.models.Resource
 import com.example.domain.cards.IGetAllCardsUseCase
 import com.example.domain.models.CardModel
+import com.example.domain.models.CardSet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,6 +67,7 @@ class CardListViewModel @Inject constructor(
         searchTerm: String,
     ): Boolean {
         return card.img.isNotEmpty() &&
+                card.cardSet != CardSet.UNKNOWN &&
                 (card.name.contains(searchTerm, ignoreCase = true) ||
                         card.text.contains(searchTerm, ignoreCase = true))
     }

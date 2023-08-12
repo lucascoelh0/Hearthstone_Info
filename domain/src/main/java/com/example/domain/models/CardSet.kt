@@ -35,12 +35,11 @@ enum class CardSet(val value: String) {
     PATH_OF_ARTHAS("Path of Arthas"),
     FESTIVAL_OF_LEGENDS("Festival of Legends"),
     TITANS("TITANS"),
-    UNKNOWN("Unknown"),
-    OTHER("Other");
+    UNKNOWN("Unknown");
 
     companion object {
         fun get(value: String) = CardSet.values().firstOrNull {
             it.value.contains(value, ignoreCase = true)
-        } ?: OTHER
+        } ?: UNKNOWN
     }
 }

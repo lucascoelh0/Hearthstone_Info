@@ -42,7 +42,7 @@ fun CardContainer(
 
 @Preview
 @Composable
-fun CardContainerPreview() {
+private fun CardContainerPreview() {
     CardContainer(
         cardModel = getMockCard(),
     )

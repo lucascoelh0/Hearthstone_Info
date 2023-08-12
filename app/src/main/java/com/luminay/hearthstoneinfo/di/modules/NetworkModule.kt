@@ -1,6 +1,9 @@
 package com.luminay.hearthstoneinfo.di.modules
 
+import android.content.Context
 import com.example.data.remote.api.CardApi
+import com.example.data.remote.interceptors.CacheInterceptor
+import com.example.data.remote.interceptors.RequestInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
@@ -8,14 +11,16 @@ import com.luminay.hearthstoneinfo.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
-import okhttp3.Interceptor
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -37,6 +42,7 @@ internal class NetworkModule {
     @Provides
     fun providesOkHttpClient(
         connectionTimeout: Long,
+        @ApplicationContext applicationContext: Context,
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         if (BuildConfig.DEBUG) {
@@ -45,28 +51,16 @@ internal class NetworkModule {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE)
         }
 
-        val requestInterceptor = Interceptor { chain ->
-            val url = chain.request()
-                .url
-                .newBuilder()
-                .addQueryParameter("locale", LOCALE)
-                .build()
-
-            val request = chain.request()
-                .newBuilder()
-                .addHeader("X-RapidAPI-Key", BuildConfig.API_KEY)
-                .addHeader("X-RapidAPI-Host", BuildConfig.API_HOST)
-                .url(url)
-                .build()
-
-            return@Interceptor chain.proceed(request)
-        }
+        val httpCacheDirectory = File(applicationContext.cacheDir, CACHE_DIR)
+        val cache = Cache(httpCacheDirectory, CACHE_SIZE)
 
         return OkHttpClient
             .Builder()
             .readTimeout(connectionTimeout, TimeUnit.SECONDS)
-            .addInterceptor(requestInterceptor)
+            .addInterceptor(RequestInterceptor())
             .addInterceptor(loggingInterceptor)
+            .addNetworkInterceptor(CacheInterceptor())
+            .cache(cache)
             .build()
     }
 
@@ -108,6 +102,7 @@ internal class NetworkModule {
     companion object {
         private const val BASE_URL = "https://omgvamp-hearthstone-v1.p.rapidapi.com/"
         private const val NETWORK_TIMEOUT = 60L
-        private const val LOCALE = "ptBR"
+        private const val CACHE_SIZE = 10 * 1024 * 1024L // 10 MB
+        private const val CACHE_DIR = "http-cache"
     }
 }

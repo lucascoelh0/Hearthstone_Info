@@ -8,6 +8,7 @@ enum class Faction {
     LEGION,
     PIRATE,
     SCOURGE,
+    NEUTRAL,
     UNKNOWN;
 
     companion object {

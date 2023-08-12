@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,7 +26,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.core.constants.HYPHEN
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.ext.capitalizeFirstLetter
 import com.example.core.ext.formatCardText
 import com.example.domain.models.CardModel
@@ -92,84 +91,107 @@ private fun CardInfo(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Text(
-            text = card.name,
-            style = TextStyle(
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.belwe_bold,
-                        FontWeight.Normal,
-                    ),
+        NameFlavorTextInfo(card = card)
+
+        StatsRow(card = card)
+
+        CardInfoList(card = card)
+    }
+}
+
+@Composable
+private fun NameFlavorTextInfo(
+    card: CardModel,
+) {
+    Text(
+        text = card.name,
+        style = TextStyle(
+            fontFamily = FontFamily(
+                Font(
+                    R.font.belwe_bold,
+                    FontWeight.Normal,
                 ),
-                color = Color.White,
-                fontSize = MaterialTheme.typography.titleLarge.fontSize,
+            ),
+            color = Color.White,
+            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+        ),
+    )
+
+    if (card.flavor.isNotEmpty()) {
+        Text(
+            text = card.flavor,
+            color = Color.Black,
+            style = TextStyle(
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
             ),
         )
+    }
 
-        if (card.flavor.isNotEmpty()) {
-            Text(
-                text = card.flavor,
-                color = Color.Black,
-                style = TextStyle(
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                ),
-            )
-        }
+    if (card.text.isNotEmpty()) {
+        Text(
+            text = card.text.formatCardText(),
+            color = Color.White,
+            fontSize = MaterialTheme.typography.titleMedium.fontSize,
+        )
+    }
+}
 
-        if (card.text.isNotEmpty()) {
-            Text(
-                text = card.text.formatCardText(),
-                color = Color.White,
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            )
-        }
+@Composable
+private fun StatsRow(
+    card: CardModel,
+    modifier: Modifier = Modifier,
+    cardViewModel: CardViewModel = hiltViewModel(),
+) {
+    Row(
+        modifier = modifier
+            .padding(top = 8.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        BulletPointLabelAndText(
+            label = stringResource(id = R.string.cost),
+            text = cardViewModel.handleStat(card.cost),
+        )
 
-        Row(
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            BulletPointLabelAndText(
-                label = stringResource(id = R.string.cost),
-                text = card.cost.toString().ifEmpty { HYPHEN },
-            )
+        BulletPointLabelAndText(
+            label = stringResource(id = R.string.attack),
+            text = cardViewModel.handleStat(card.attack),
+        )
 
-            BulletPointLabelAndText(
-                label = stringResource(id = R.string.attack),
-                text = card.attack.toString().ifEmpty { HYPHEN },
-            )
+        BulletPointLabelAndText(
+            label = stringResource(id = R.string.health),
+            text = cardViewModel.handleStat(card.health),
+        )
+    }
+}
 
-            BulletPointLabelAndText(
-                label = stringResource(id = R.string.health),
-                text = card.health.toString().ifEmpty { HYPHEN },
-            )
-        }
-
-        card.apply {
-            mapOf(
-                stringResource(id = R.string.set) to cardSet.value,
-                stringResource(id = R.string.type) to type.name.capitalizeFirstLetter(),
-                stringResource(id = R.string.faction) to faction.name.capitalizeFirstLetter(),
-                stringResource(id = R.string.rarity) to rarity.name.capitalizeFirstLetter(),
-                stringResource(id = R.string.player_class) to playerClass.value,
-            ).forEach {
-                if (it.value.isNotEmpty()) {
-                    BulletPointLabelAndText(
-                        label = it.key,
-                        text = it.value,
-                    )
-                }
+@Composable
+private fun CardInfoList(
+    card: CardModel,
+    modifier: Modifier = Modifier,
+) {
+    card.apply {
+        mapOf(
+            stringResource(id = R.string.set) to cardSet.value,
+            stringResource(id = R.string.type) to type.name.capitalizeFirstLetter(),
+            stringResource(id = R.string.faction) to faction.name.capitalizeFirstLetter(),
+            stringResource(id = R.string.rarity) to rarity.name.capitalizeFirstLetter(),
+            stringResource(id = R.string.player_class) to playerClass.value,
+        ).forEach {
+            if (it.value.isNotEmpty()) {
+                BulletPointLabelAndText(
+                    label = it.key,
+                    text = it.value,
+                    modifier = modifier,
+                )
             }
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
 @Preview
 @Composable
-fun CardDetailsPreview() {
+private fun CardDetailsPreview() {
     HearthstoneInfoTheme {
         Surface(
             color = Color.Transparent,
@@ -183,12 +205,52 @@ fun CardDetailsPreview() {
 
 @Preview
 @Composable
-fun CardInfoPreview() {
+private fun CardInfoPreview() {
     HearthstoneInfoTheme {
         Surface {
             CardInfo(
                 card = getMockCard()
             )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun NameFlavorTextInfoPreview() {
+    HearthstoneInfoTheme {
+        Surface {
+            Column {
+                NameFlavorTextInfo(
+                    card = getMockCard()
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun StatsRowPreview() {
+    HearthstoneInfoTheme {
+        Surface {
+            StatsRow(
+                card = getMockCard()
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CardInfoListPreview() {
+    HearthstoneInfoTheme {
+        Surface {
+            Column {
+                CardInfoList(
+                    card = getMockCard()
+                )
+            }
         }
     }
 }

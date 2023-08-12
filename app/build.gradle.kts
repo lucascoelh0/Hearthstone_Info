@@ -11,8 +11,6 @@ plugins {
 android {
     namespace = Modules.App.namespace
     compileSdk = Modules.App.compileSdk
-    val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
-    val apiHost: String = gradleLocalProperties(rootDir).getProperty("API_HOST")
 
     defaultConfig {
         applicationId = "com.luminay.hearthstoneinfo"
@@ -28,13 +26,9 @@ android {
     }
 
     buildTypes {
-        all {
-            buildConfigField("String", "API_KEY", apiKey)
-            buildConfigField("String", "API_HOST", apiHost)
-        }
         release {
             isMinifyEnabled = false
-//            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -77,7 +71,6 @@ dependencies {
     implementation(Dependencies.Hilt.hiltAndroid)
     implementation(Dependencies.Compose.lifecycleRuntime)
     implementation(Dependencies.Libraries.composeShimmer)
-    kapt(Dependencies.Hilt.hiltCompiler)
     implementation(Dependencies.Hilt.hiltPlugin)
     implementation(Dependencies.Hilt.hiltNavigationCompose)
     implementation(Dependencies.SquareUp.okhttp)
@@ -86,7 +79,7 @@ dependencies {
     implementation(Dependencies.SquareUp.retrofitConverterGson)
     implementation(Dependencies.Google.gson)
     implementation(Dependencies.Libraries.networkResponseAdapter)
-    implementation ("com.github.bumptech.glide:compose:1.0.0-alpha.1")
+    kapt(Dependencies.Hilt.hiltCompiler)
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidxTestExtJunit)
     androidTestImplementation(Dependencies.Test.espressoCore)

@@ -51,7 +51,8 @@ class CardListViewModel @Inject constructor(
         val filteredCards = cards.mapValues { (_, value) ->
             value.filter { card ->
                 card.img.isNotEmpty() && (card.name.contains(searchTerm, ignoreCase = true) ||
-                        card.text.contains(searchTerm, ignoreCase = true))
+                        (card.text.contains(searchTerm, ignoreCase = true) ||
+                                card.cardSet.value.contains(searchTerm, ignoreCase = true)))
             }
         }.filter { (_, value) ->
             value.isNotEmpty()

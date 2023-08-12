@@ -35,9 +35,9 @@ fun CardDto.toCardModel(): CardModel {
         type = Type.get(type.orEmpty()),
         faction = Faction.get(faction.orEmpty()),
         rarity = Rarity.get(rarity.orEmpty()),
-        attack = attack ?: 0,
-        cost = cost ?: 0,
-        health = health ?: 0,
+        attack = attack ?: -1,
+        cost = cost ?: -1,
+        health = health ?: -1,
     )
 }
 

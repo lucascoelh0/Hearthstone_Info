@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id(Plugin.Android.library)
     id(Plugin.Jetbrains.kotlin)
@@ -9,14 +11,20 @@ android {
     namespace = "com.example.data"
     compileSdk = 34
 
+    val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
+    val apiHost: String = gradleLocalProperties(rootDir).getProperty("API_HOST")
     defaultConfig {
         minSdk = 27
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles("consumer-rules.pro")
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
+        all {
+            buildConfigField("String", "API_KEY", apiKey)
+            buildConfigField("String", "API_HOST", apiHost)
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -26,6 +34,9 @@ android {
         javacOptions {
             option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

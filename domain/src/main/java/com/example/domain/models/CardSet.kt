@@ -40,7 +40,7 @@ enum class CardSet(val value: String) {
 
     companion object {
         fun get(value: String) = CardSet.values().firstOrNull {
-            it.name.contains(value, ignoreCase = true)
+            it.value.contains(value, ignoreCase = true)
         } ?: OTHER
     }
 }

@@ -16,7 +16,7 @@ import com.luminay.hearthstoneinfo.features.cardlist.presentation.mocks.getMockC
 import com.luminay.hearthstoneinfo.utils.debugPlaceholder
 
 @Composable
-fun CardContainer(
+fun CardImage(
     cardModel: CardModel,
     modifier: Modifier = Modifier,
     onCardClick: (CardModel) -> Unit = {},
@@ -42,8 +42,8 @@ fun CardContainer(
 
 @Preview
 @Composable
-private fun CardContainerPreview() {
-    CardContainer(
+private fun CardImagePreview() {
+    CardImage(
         cardModel = getMockCard(),
     )
 }

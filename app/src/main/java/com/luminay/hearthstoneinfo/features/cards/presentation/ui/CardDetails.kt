@@ -35,7 +35,7 @@ import com.luminay.hearthstoneinfo.features.cardlist.presentation.mocks.getMockC
 import com.luminay.hearthstoneinfo.theme.Gray80
 import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
 import com.luminay.hearthstoneinfo.ui.common.BulletPointLabelAndText
-import com.luminay.hearthstoneinfo.ui.common.CardContainer
+import com.luminay.hearthstoneinfo.ui.common.CardImage
 
 @Composable
 fun CardDetails(
@@ -61,7 +61,7 @@ fun CardDetails(
                 .offset(y = (-100).dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CardContainer(
+            CardImage(
                 cardModel = card,
                 modifier = Modifier
                     .height(250.dp)

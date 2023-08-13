@@ -51,7 +51,7 @@ import com.luminay.hearthstoneinfo.theme.Red90
 import com.luminay.hearthstoneinfo.theme.Yellow20
 import com.luminay.hearthstoneinfo.ui.common.BottomSheet
 import com.luminay.hearthstoneinfo.ui.common.ButtonWithDownArrow
-import com.luminay.hearthstoneinfo.ui.common.CardContainer
+import com.luminay.hearthstoneinfo.ui.common.CardImage
 import com.luminay.hearthstoneinfo.ui.common.HorizontalFullTextContainer
 import com.luminay.hearthstoneinfo.ui.common.SearchBarWithBorder
 
@@ -336,7 +336,7 @@ private fun CardGridItem(
             if (item.img.isNotEmpty() &&
                 item.name.isNotEmpty()
             ) {
-                CardContainer(
+                CardImage(
                     cardModel = item,
                     modifier = Modifier
                         .padding(

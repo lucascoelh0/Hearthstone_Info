@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     id(Plugin.Android.application)
     id(Plugin.Kotlin.android)
@@ -81,6 +79,7 @@ dependencies {
     implementation(Dependencies.Libraries.networkResponseAdapter)
     kapt(Dependencies.Hilt.hiltCompiler)
     testImplementation(Dependencies.Test.junit)
+    testImplementation(Dependencies.Test.mockk)
     androidTestImplementation(Dependencies.Test.androidxTestExtJunit)
     androidTestImplementation(Dependencies.Test.espressoCore)
     androidTestImplementation(Dependencies.Test.uiTestJunit4)

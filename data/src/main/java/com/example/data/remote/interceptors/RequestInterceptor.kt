@@ -17,7 +17,7 @@ class RequestInterceptor : Interceptor {
         val request = chain.request()
             .newBuilder()
             .addHeader(HEADER_KEY, BuildConfig.API_KEY)
-            .addHeader(HEADER_HOST, BuildConfig.API_HOST)
+            .addHeader(HEADER_HOST, API_HOST)
             .url(url)
             .build()
 
@@ -25,9 +25,10 @@ class RequestInterceptor : Interceptor {
     }
 
     companion object {
-        private const val LOCALE_STRING = "locale"
-        private const val LOCALE_VALUE = "ptBR"
-        private const val HEADER_KEY = "X-RapidAPI-Key"
-        private const val HEADER_HOST = "X-RapidAPI-Host"
+        const val API_HOST = "omgvamp-hearthstone-v1.p.rapidapi.com"
+        const val LOCALE_STRING = "locale"
+        const val LOCALE_VALUE = "ptBR"
+        const val HEADER_KEY = "X-RapidAPI-Key"
+        const val HEADER_HOST = "X-RapidAPI-Host"
     }
 }

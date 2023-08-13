@@ -24,4 +24,6 @@ object Version {
     const val gson = "2.10.1"
     const val networkResponseAdapter = "4.1.0"
     const val composeDestinations = "1.8.39-beta"
+    const val mockk = "1.13.5"
+    const val coroutinesTesting = "1.7.3"
 }

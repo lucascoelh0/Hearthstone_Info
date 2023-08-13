@@ -12,7 +12,6 @@ android {
     compileSdk = 34
 
     val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
-    val apiHost: String = gradleLocalProperties(rootDir).getProperty("API_HOST")
     defaultConfig {
         minSdk = 27
 
@@ -23,7 +22,6 @@ android {
     buildTypes {
         all {
             buildConfigField("String", "API_KEY", apiKey)
-            buildConfigField("String", "API_HOST", apiHost)
         }
         release {
             isMinifyEnabled = false
@@ -62,4 +60,6 @@ dependencies {
     implementation(Dependencies.Hilt.hiltPlugin)
     api(Dependencies.Google.gson)
     testImplementation(Dependencies.Test.junit)
+    testImplementation(Dependencies.Test.mockk)
+    testImplementation(Dependencies.Test.coroutinesTesting)
 }

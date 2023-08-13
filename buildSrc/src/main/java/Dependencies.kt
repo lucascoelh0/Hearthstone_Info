@@ -56,5 +56,7 @@ object Dependencies {
         const val espressoCore = "androidx.test.espresso:espresso-core:${Version.espressoCore}"
         const val uiTestManifest = "androidx.compose.ui:ui-test-manifest"
         const val uiTestJunit4 = "androidx.compose.ui:ui-test-junit4:${Version.compose}"
+        const val mockk = "io.mockk:mockk:${Version.mockk}"
+        const val coroutinesTesting = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Version.coroutinesTesting}"
     }
 }

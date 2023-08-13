@@ -42,4 +42,5 @@ dependencies {
     kapt(Dependencies.Hilt.hiltCompiler)
     implementation(Dependencies.Hilt.hiltPlugin)
     testImplementation(Dependencies.Test.junit)
+    testImplementation(Dependencies.Test.mockk)
 }

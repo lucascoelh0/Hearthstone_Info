@@ -1,4 +1,4 @@
-package com.luminay.hearthstoneinfo.features.cardlist.presentation
+package com.luminay.hearthstoneinfo
 
 import android.graphics.Color
 import android.os.Bundle

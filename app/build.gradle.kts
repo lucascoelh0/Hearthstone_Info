@@ -80,6 +80,7 @@ dependencies {
     kapt(Dependencies.Hilt.hiltCompiler)
     testImplementation(Dependencies.Test.junit)
     testImplementation(Dependencies.Test.mockk)
+    testImplementation(Dependencies.Test.coroutinesTesting)
     androidTestImplementation(Dependencies.Test.androidxTestExtJunit)
     androidTestImplementation(Dependencies.Test.espressoCore)
     androidTestImplementation(Dependencies.Test.uiTestJunit4)

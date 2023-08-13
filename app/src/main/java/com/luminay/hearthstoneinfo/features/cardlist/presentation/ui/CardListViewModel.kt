@@ -47,12 +47,20 @@ class CardListViewModel @Inject constructor(
     fun getCardsFlattenedMap(
         cards: Map<String, List<CardModel>>,
         searchTerm: String,
+        chosenCardSet: CardSet,
     ): List<Any> {
         val filteredCards = cards.mapValues { (_, value) ->
             value.filter { card ->
-                card.img.isNotEmpty() && (card.name.contains(searchTerm, ignoreCase = true) ||
-                        (card.text.contains(searchTerm, ignoreCase = true) ||
-                                card.cardSet.value.contains(searchTerm, ignoreCase = true)))
+                card.img.isNotEmpty() &&
+                        (card.name.contains(searchTerm, ignoreCase = true) ||
+                                (card.text.contains(searchTerm, ignoreCase = true) ||
+                                        card.cardSet.value.contains(searchTerm, ignoreCase = true)))
+            }.filter {
+                if (chosenCardSet != CardSet.ALL) {
+                    it.cardSet == chosenCardSet
+                } else {
+                    true
+                }
             }
         }.filter { (_, value) ->
             value.isNotEmpty()
@@ -61,15 +69,5 @@ class CardListViewModel @Inject constructor(
         return filteredCards.flatMap { entry ->
             listOf(entry.key) + entry.value
         }
-    }
-
-    fun filterCard(
-        card: CardModel,
-        searchTerm: String,
-    ): Boolean {
-        return card.img.isNotEmpty() &&
-                card.cardSet != CardSet.UNKNOWN &&
-                (card.name.contains(searchTerm, ignoreCase = true) ||
-                        card.text.contains(searchTerm, ignoreCase = true))
     }
 }

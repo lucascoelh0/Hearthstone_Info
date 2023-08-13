@@ -44,6 +44,7 @@ import com.luminay.hearthstoneinfo.R
 import com.luminay.hearthstoneinfo.features.cardlist.presentation.mocks.getMockCardMap
 import com.luminay.hearthstoneinfo.features.cards.presentation.ui.CardDetails
 import com.luminay.hearthstoneinfo.theme.HearthstoneInfoTheme
+import com.luminay.hearthstoneinfo.theme.Orange100
 import com.luminay.hearthstoneinfo.theme.Orange20
 import com.luminay.hearthstoneinfo.theme.Red100
 import com.luminay.hearthstoneinfo.theme.Red90
@@ -63,6 +64,7 @@ fun CardsListScreen(
     val allCards by viewModel.allCards.collectAsStateWithLifecycle(initialValue = null)
     var searchTerm by remember { mutableStateOf(EMPTY) }
     var showDetailsBottomSheet by remember { mutableStateOf(false) }
+    var chosenCardSet by remember { mutableStateOf(CardSet.ALL) }
     if (showDetailsBottomSheet) {
         BottomSheet(
             onDismiss = { showDetailsBottomSheet = false },
@@ -83,8 +85,9 @@ fun CardsListScreen(
                     searchTerm = it
                 },
                 onClickCardSet = {
-                    TODO()
+                    chosenCardSet = it
                 },
+                chosenCardSet = chosenCardSet,
                 isSearchBarEnabled = allCards?.data is Map<*, *>,
             )
         },
@@ -96,6 +99,7 @@ fun CardsListScreen(
                     viewModel.fetchData()
                 },
                 searchTerm = searchTerm,
+                chosenCardSet = chosenCardSet,
                 modifier = Modifier.fillMaxSize(),
                 onCardClick = {
                     viewModel.pressedCard = it
@@ -113,6 +117,7 @@ fun CardsStatus(
     allCards: Resource<Map<String, List<CardModel>>>?,
     onRetry: () -> Unit,
     searchTerm: String,
+    chosenCardSet: CardSet,
     modifier: Modifier = Modifier,
     onCardClick: (CardModel) -> Unit,
 ) {
@@ -134,6 +139,7 @@ fun CardsStatus(
                     onRetry = onRetry,
                     searchTerm = searchTerm,
                     onCardClick = onCardClick,
+                    chosenCardSet = chosenCardSet,
                 )
             }
 
@@ -152,10 +158,24 @@ private fun TopBar(
     searchTerm: String,
     onQueryChange: (String) -> Unit,
     onClickCardSet: (CardSet) -> Unit,
+    chosenCardSet: CardSet,
     isSearchBarEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     var showCardSetDialog by remember { mutableStateOf(false) }
+
+    if (showCardSetDialog) {
+        CardSetDialog(
+            showDialog = showCardSetDialog,
+            chosenCardSet = chosenCardSet,
+            onDismiss = {
+                showCardSetDialog = false
+            },
+            onSetSelected = onClickCardSet,
+            modifier = Modifier.background(color = Orange100)
+        )
+    }
+
     Column {
         Row(
             modifier = modifier
@@ -172,7 +192,7 @@ private fun TopBar(
         ) {
             ButtonWithDownArrow(
                 onClick = {
-                    showCardSetDialog = !showCardSetDialog
+                    showCardSetDialog = showCardSetDialog.not()
                 },
                 leftIcon = ImageVector.vectorResource(id = R.drawable.ic_card_set),
             )
@@ -199,6 +219,7 @@ private fun TopBarPreview() {
             searchTerm = EMPTY,
             onQueryChange = {},
             onClickCardSet = {},
+            chosenCardSet = CardSet.ALL,
             isSearchBarEnabled = true,
         )
     }
@@ -210,8 +231,9 @@ fun CardsList(
     cards: Map<String, List<CardModel>>?,
     onRetry: () -> Unit,
     searchTerm: String,
-    modifier: Modifier = Modifier,
+    chosenCardSet: CardSet,
     onCardClick: (CardModel) -> Unit,
+    modifier: Modifier = Modifier,
     cardListViewModel: CardListViewModel = hiltViewModel(),
 ) {
     if (cards == null) {
@@ -219,7 +241,11 @@ fun CardsList(
             onRetry = { onRetry() }
         )
     } else {
-        val flattenedCards = cardListViewModel.getCardsFlattenedMap(cards, searchTerm)
+        val flattenedCards = cardListViewModel.getCardsFlattenedMap(
+            cards,
+            searchTerm,
+            chosenCardSet,
+        )
         val state = rememberLazyGridState()
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
@@ -334,6 +360,7 @@ fun PreviewCardsList() {
         onRetry = {},
         searchTerm = EMPTY,
         onCardClick = {},
+        chosenCardSet = CardSet.ALL,
     )
 }
 

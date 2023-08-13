@@ -1,6 +1,7 @@
 package com.example.domain.models
 
 enum class CardSet(val value: String) {
+    ALL("Todos"),
     BASIC("Basic"),
     CLASSIC("Classic"),
     HALL_OF_FAME("Hall of Fame"),

@@ -2,7 +2,7 @@ package com.luminay.hearthstoneinfo.features.cardlist.presentation.ui
 
 import com.example.core.constants.EMPTY
 import com.example.core.models.Resource
-import com.example.domain.cards.IGetAllCardsUseCase
+import com.example.domain.usecases.cards.IGetAllCardsUseCase
 import com.example.domain.models.CardModel
 import com.example.domain.models.CardSet
 import com.example.domain.models.Faction

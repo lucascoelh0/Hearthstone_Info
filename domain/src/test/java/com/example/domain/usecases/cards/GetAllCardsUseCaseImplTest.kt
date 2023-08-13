@@ -1,4 +1,4 @@
-package com.example.domain.cards
+package com.example.domain.usecases.cards
 
 import com.example.core.models.Resource
 import com.example.domain.models.CardModel

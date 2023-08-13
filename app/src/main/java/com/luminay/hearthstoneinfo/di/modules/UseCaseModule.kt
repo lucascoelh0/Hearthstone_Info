@@ -1,7 +1,7 @@
 package com.luminay.hearthstoneinfo.di.modules
 
-import com.example.domain.cards.GetAllCardsUseCaseImpl
-import com.example.domain.cards.IGetAllCardsUseCase
+import com.example.domain.usecases.cards.GetAllCardsUseCaseImpl
+import com.example.domain.usecases.cards.IGetAllCardsUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

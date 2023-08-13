@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.models.Resource
-import com.example.domain.cards.IGetAllCardsUseCase
+import com.example.domain.usecases.cards.IGetAllCardsUseCase
 import com.example.domain.models.CardModel
 import com.example.domain.models.CardSet
 import dagger.hilt.android.lifecycle.HiltViewModel

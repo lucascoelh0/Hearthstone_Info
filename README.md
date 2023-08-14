@@ -19,7 +19,7 @@ Também existe a funcionalidade de procurar cartas pelo nome e filtrar pelo set.
 
 **App**: contém arquivos relacionados à UI, como composables e viewmodels.
 
-# Libraries used
+# Bibliotecas utilizadas
 
 Jetpack Compose
 

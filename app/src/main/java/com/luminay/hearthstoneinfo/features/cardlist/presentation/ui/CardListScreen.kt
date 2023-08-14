@@ -134,13 +134,18 @@ fun CardsStatus(
             }
 
             Status.SUCCESS -> {
-                CardsList(
-                    cards = allCards.data,
-                    onRetry = onRetry,
-                    searchTerm = searchTerm,
-                    onCardClick = onCardClick,
-                    chosenCardSet = chosenCardSet,
-                )
+                allCards.data?.let {
+                    CardsList(
+                        cards = it,
+                        searchTerm = searchTerm,
+                        onCardClick = onCardClick,
+                        chosenCardSet = chosenCardSet,
+                    )
+                } ?: run {
+                    ErrorMessage(
+                        onRetry = onRetry,
+                    )
+                }
             }
 
             else -> {
@@ -228,41 +233,34 @@ private fun TopBarPreview() {
 @ExperimentalMaterial3Api
 @Composable
 fun CardsList(
-    cards: Map<String, List<CardModel>>?,
-    onRetry: () -> Unit,
+    cards: Map<String, List<CardModel>>,
     searchTerm: String,
     chosenCardSet: CardSet,
     onCardClick: (CardModel) -> Unit,
     modifier: Modifier = Modifier,
     cardListViewModel: CardListViewModel = hiltViewModel(),
 ) {
-    if (cards == null) {
-        ErrorMessage(
-            onRetry = { onRetry() }
-        )
-    } else {
-        val flattenedCards = cardListViewModel.getCardsFlattenedMap(
-            cards,
-            searchTerm,
-            chosenCardSet,
-        )
-        val state = rememberLazyGridState()
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(4),
-            state = state,
-            modifier = modifier,
-        ) {
-            itemsIndexed(
-                items = flattenedCards,
-                key = { _, item -> getGridItemKey(item) },
-                span = { _, item -> getGridItemSpan(item) }
-            ) { index, item ->
-                CardGridItem(
-                    index = index,
-                    item = item,
-                    onCardClick = onCardClick,
-                )
-            }
+    val flattenedCards = cardListViewModel.getCardsFlattenedMap(
+        cards,
+        searchTerm,
+        chosenCardSet,
+    )
+    val state = rememberLazyGridState()
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(4),
+        state = state,
+        modifier = modifier,
+    ) {
+        itemsIndexed(
+            items = flattenedCards,
+            key = { _, item -> getGridItemKey(item) },
+            span = { _, item -> getGridItemSpan(item) }
+        ) { index, item ->
+            CardGridItem(
+                index = index,
+                item = item,
+                onCardClick = onCardClick,
+            )
         }
     }
 }
@@ -357,7 +355,6 @@ private fun CardGridItem(
 fun PreviewCardsList() {
     CardsList(
         cards = getMockCardMap(),
-        onRetry = {},
         searchTerm = EMPTY,
         onCardClick = {},
         chosenCardSet = CardSet.ALL,
